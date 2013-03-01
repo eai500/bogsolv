@@ -85,7 +85,12 @@ public class Solutions extends ListActivity {
 
         @Override
         protected String doInBackground(String... objects) {
-            return new DumbDefinitionFinder().getDefinition(word);
+            String definition = DefinitionCache.getDefinition(word);
+            if(definition == null) {
+                definition = new DumbDefinitionFinder().getDefinition(word);
+                DefinitionCache.setDefinition(word, definition);
+            }
+            return definition;
         }
 
         @Override

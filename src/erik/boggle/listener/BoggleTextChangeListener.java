@@ -3,7 +3,6 @@ package erik.boggle.listener;
 import android.os.AsyncTask;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
@@ -13,17 +12,16 @@ import android.widget.EditText;
 public class BoggleTextChangeListener implements TextWatcher {
     private final EditText letter;
     private final EditText nextLetter;
-    private InputMethodManager imm;
+    private InputMethodManager inputManager;
 
-    public BoggleTextChangeListener(EditText letter, EditText nextLetter, InputMethodManager imm) {
+    public BoggleTextChangeListener(EditText letter, EditText nextLetter, InputMethodManager inputManager) {
         this.nextLetter = nextLetter;
         this.letter = letter;
-        this.imm = imm;
+        this.inputManager = inputManager;
     }
 
     @Override
     public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
     }
 
     @Override
@@ -32,7 +30,6 @@ public class BoggleTextChangeListener implements TextWatcher {
 
     @Override
     public void afterTextChanged(Editable editable) {
-        Log.i("erik", "atc called " + editable+ "  " + letter + "  " + this);
         String input = editable.toString();
         if(input.length() == 1 && !isUppercaseAndOneChar(input)) {
             String uppercased = input.toUpperCase();
@@ -47,14 +44,13 @@ public class BoggleTextChangeListener implements TextWatcher {
 
     private boolean isUppercaseAndOneChar(String s) {
         return s.length() == 1 && s.charAt(0) == s.toUpperCase().charAt(0);
-
     }
 
     private void next() {
         if(nextLetter != null) {
             nextLetter.requestFocus();
         } else {
-            imm.hideSoftInputFromWindow(letter.getWindowToken(), 0);
+            inputManager.hideSoftInputFromWindow(letter.getWindowToken(), 0);
         }
     }
 

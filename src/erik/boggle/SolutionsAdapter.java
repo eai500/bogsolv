@@ -3,7 +3,6 @@ package erik.boggle;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
@@ -13,7 +12,7 @@ import java.util.List;
 /**
  * @author erik
  */
-public class SolutionsAdapter extends BaseAdapter implements OnClickListener {
+public class SolutionsAdapter extends BaseAdapter {
     private Context context;
     private List<WordListItem> wordItems;
 
@@ -59,15 +58,4 @@ public class SolutionsAdapter extends BaseAdapter implements OnClickListener {
         }
         return builder.toString();
     }
-
-    @Override
-    public void onClick(View view) {
-//        Phonebook entry = (Phonebook) view.getTag();
-//        listPhonebook.remove(entry);
-//        // listPhonebook.remove(view.getId());
-//        notifyDataSetChanged();
-
-    }
-
-
 }
