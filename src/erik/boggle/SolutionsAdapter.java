@@ -38,7 +38,7 @@ public class SolutionsAdapter extends BaseAdapter {
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.word_row, null);
+            convertView = inflater.inflate(R.layout.word_row_2, null);
         }
         TextView wordView = (TextView) convertView.findViewById(R.id.wordRowWord);
         wordView.setText(entry.getWord());

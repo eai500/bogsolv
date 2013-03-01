@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import erik.boggle.util.SolvedWords;
 import erik.boggle.ws.DumbDefinitionFinder;
 
@@ -64,8 +65,9 @@ public class Solutions extends ListActivity {
             item.setDefinitions(null);
             ((SolutionsAdapter)l.getAdapter()).notifyDataSetChanged();
         } else {
-            //todo - save definition
-            new DefinitionSetter(position, ((WordListItem)l.getAdapter().getItem(position)).getWord()).execute();
+            ProgressBar progressBar = (ProgressBar)v.findViewById(R.id.progressBar);
+            String word = ((WordListItem)l.getAdapter().getItem(position)).getWord();
+            new DefinitionSetter(position, word, progressBar).execute();
         }
     }
 
@@ -77,10 +79,17 @@ public class Solutions extends ListActivity {
     private class DefinitionSetter extends AsyncTask<String, String, String> {
         private final int position;
         private final String word;
+        private final ProgressBar progressBar;
 
-        DefinitionSetter(int position, String word) {
+        DefinitionSetter(int position, String word, ProgressBar progressBar) {
             this.position = position;
             this.word = word;
+            this.progressBar = progressBar;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            progressBar.setVisibility(ProgressBar.VISIBLE);
         }
 
         @Override
@@ -95,6 +104,7 @@ public class Solutions extends ListActivity {
 
         @Override
         protected void onPostExecute(String result) {
+            progressBar.setVisibility(ProgressBar.INVISIBLE);
             setDefinition(position, result);
         }
     }
