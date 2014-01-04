@@ -13,6 +13,7 @@ public class BoggleTextChangeListener implements TextWatcher {
     private final EditText letter;
     private final EditText nextLetter;
     private InputMethodManager inputManager;
+    private String previousValue = "blah";
 
     public BoggleTextChangeListener(EditText letter, EditText nextLetter, InputMethodManager inputManager) {
         this.nextLetter = nextLetter;
@@ -30,20 +31,15 @@ public class BoggleTextChangeListener implements TextWatcher {
 
     @Override
     public void afterTextChanged(Editable editable) {
-        String input = editable.toString();
-        if(input.length() == 1 && !isUppercaseAndOneChar(input)) {
-            String uppercased = input.toUpperCase();
-            if(uppercased.equals("Q")) {
+        if(!editable.toString().equals(previousValue) && editable.toString().length() > 0) {
+            if(editable.toString().equalsIgnoreCase("Q")) {
+                inputManager.hideSoftInputFromWindow(letter.getWindowToken(), 0);
                 editable.replace(0,1,"Qu");
-            } else {
-                editable.replace(0, 1, uppercased);
-            }
-            new NextLater().execute(nextLetter);
-        }
-    }
 
-    private boolean isUppercaseAndOneChar(String s) {
-        return s.length() == 1 && s.charAt(0) == s.toUpperCase().charAt(0);
+            }
+            previousValue = editable.toString();
+            next();
+        }
     }
 
     private void next() {
@@ -51,23 +47,6 @@ public class BoggleTextChangeListener implements TextWatcher {
             nextLetter.requestFocus();
         } else {
             inputManager.hideSoftInputFromWindow(letter.getWindowToken(), 0);
-        }
-    }
-
-    //todo -remove this hack
-    private class NextLater extends AsyncTask<EditText, Void, Void> {
-        @Override
-        protected Void doInBackground(EditText... editTexts) {
-            try {
-                Thread.sleep(100);
-            } catch (InterruptedException ignore) {
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            next();
         }
     }
 }

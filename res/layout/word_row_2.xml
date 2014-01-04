@@ -15,8 +15,18 @@
                 android:layout_alignParentRight="true" android:layout_alignTop="@+id/wordRowWord"
                 android:visibility="invisible"/>
         <TextView
+                android:layout_width="19dp"
+                android:layout_height="22dp"
+                android:id="@+id/plusMinus" android:layout_gravity="right|center_vertical"
+                android:layout_alignParentRight="true" android:layout_alignTop="@+id/wordRowWord"
+                android:text="+"
+                android:textSize="22sp"
+                android:typeface="monospace"
+                />
+        <TextView
                 android:layout_width="203dp"
                 android:layout_height="wrap_content"
+                android:typeface="monospace"
                 android:id="@id/wordRowWord" android:layout_gravity="left|center_vertical"
                 android:textColor="@color/black" android:textStyle="bold"
                 android:layout_alignParentLeft="true" android:layout_marginLeft="7dp"

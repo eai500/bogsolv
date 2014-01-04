@@ -3,6 +3,7 @@
     <string name="app_name">BoggNabbit</string>
     <string name="solve">Solve</string>
     <string name="clear">Clear</string>
+    <string name="camera">Camera</string>
 
     <color name="gray">#4C4646</color>
     <color name="black">#000000</color>

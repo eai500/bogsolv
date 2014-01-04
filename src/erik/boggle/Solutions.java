@@ -4,8 +4,10 @@ import android.app.ListActivity;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import erik.boggle.util.SolvedWords;
 import erik.boggle.ws.DumbDefinitionFinder;
 
@@ -61,13 +63,16 @@ public class Solutions extends ListActivity {
     @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {
         WordListItem item =((WordListItem)l.getAdapter().getItem(position));
+        TextView plusMinus = (TextView)v.findViewById(R.id.plusMinus);
+
         if(item.getDefinitions() != null) {
             item.setDefinitions(null);
             ((SolutionsAdapter)l.getAdapter()).notifyDataSetChanged();
+            plusMinus.setText("+");
         } else {
             ProgressBar progressBar = (ProgressBar)v.findViewById(R.id.progressBar);
             String word = ((WordListItem)l.getAdapter().getItem(position)).getWord();
-            new DefinitionSetter(position, word, progressBar).execute();
+            new DefinitionSetter(position, word, progressBar, plusMinus).execute();
         }
     }
 
@@ -80,16 +85,19 @@ public class Solutions extends ListActivity {
         private final int position;
         private final String word;
         private final ProgressBar progressBar;
+        private final TextView plusMinus;
 
-        DefinitionSetter(int position, String word, ProgressBar progressBar) {
+        DefinitionSetter(int position, String word, ProgressBar progressBar, TextView plusMinus) {
             this.position = position;
             this.word = word;
             this.progressBar = progressBar;
+            this.plusMinus = plusMinus;
         }
 
         @Override
         protected void onPreExecute() {
             progressBar.setVisibility(ProgressBar.VISIBLE);
+            plusMinus.setVisibility(TextView.INVISIBLE);
         }
 
         @Override
@@ -105,6 +113,8 @@ public class Solutions extends ListActivity {
         @Override
         protected void onPostExecute(String result) {
             progressBar.setVisibility(ProgressBar.INVISIBLE);
+            plusMinus.setText("-");
+            plusMinus.setVisibility(TextView.VISIBLE);
             setDefinition(position, result);
         }
     }

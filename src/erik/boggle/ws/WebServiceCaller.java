@@ -12,17 +12,18 @@ import java.net.URL;
  */
 public class WebServiceCaller {
 
+
     public String call(URL url) {
-        return readStream(getInputStream(url));
+        try {
+            return readStream(getInputStream(url));
+        } catch (IOException e) {
+            return "No internet connection.";
+        }
     }
 
-    public InputStream getInputStream(URL url) {
-        try {
+    public InputStream getInputStream(URL url) throws IOException {
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             return con.getInputStream();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
     }
 
 

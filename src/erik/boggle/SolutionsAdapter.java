@@ -35,16 +35,22 @@ public class SolutionsAdapter extends BaseAdapter {
 
     public View getView(int position, View convertView, ViewGroup viewGroup) {
         WordListItem entry = wordItems.get(position);
+        ViewHolder holder;
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.word_row_2, null);
-        }
-        TextView wordView = (TextView) convertView.findViewById(R.id.wordRowWord);
-        wordView.setText(entry.getWord());
 
-        TextView definitionView = (TextView) convertView.findViewById(R.id.wordRowDefinition);
-        definitionView.setText(getDefinitionString(entry.getDefinitions()));
+            holder = new ViewHolder();
+            holder.wordView = (TextView)convertView.findViewById(R.id.wordRowWord);
+            holder.definitionView = (TextView)convertView.findViewById(R.id.wordRowDefinition);
+            convertView.setTag(holder);
+
+        } else {
+            holder = (ViewHolder)convertView.getTag();
+        }
+        holder.wordView.setText(entry.getWord());
+        holder.definitionView.setText(getDefinitionString(entry.getDefinitions()));
 
         return convertView;
     }
@@ -57,5 +63,10 @@ public class SolutionsAdapter extends BaseAdapter {
             }
         }
         return builder.toString();
+    }
+
+    static class ViewHolder {
+        TextView wordView;
+        TextView definitionView;
     }
 }

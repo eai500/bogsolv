@@ -25,7 +25,12 @@ public class DumbDefinitionFinder implements DefinitionFinder {
     private String parseDefinition(String response) {
         int start = response.indexOf("<def>");
         int end = response.indexOf("</def>");
-        return start > 0 && end > 0 ? removeTags(response, start, end) : "No definition found.";
+        return start > 0 && end > 0 ? clean(response, start, end) : "No definition found.";
+    }
+
+    private String clean(String response, int start, int end) {
+        String cleaned = removeTags(response, start, end);
+        return cleaned.startsWith(":") ? cleaned.substring(1, cleaned.length()) : cleaned;
     }
 
     private String removeTags(String response, int start, int end) {

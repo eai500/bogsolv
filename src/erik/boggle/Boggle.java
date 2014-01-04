@@ -6,10 +6,13 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.method.KeyListener;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Toast;
+import erik.boggle.listener.BackspaceListener;
 import erik.boggle.listener.BoggleTextChangeListener;
 import erik.boggle.util.SolvedWords;
 
@@ -103,17 +106,18 @@ public class Boggle extends Activity {
         }
     }
 
-
-
     private EditText loadLetter(int id) {
         EditText letter = ((EditText)findViewById(id));
-        InputMethodManager imm = (InputMethodManager)getSystemService(
-                Context.INPUT_METHOD_SERVICE);
+        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+
         if(findViewById(id + 1) instanceof EditText) {
             letter.addTextChangedListener(new BoggleTextChangeListener(letter, (EditText)findViewById(id+1), imm));
         } else {
             letter.addTextChangedListener(new BoggleTextChangeListener(letter, null, imm));
         }
+
+        EditText previous = findViewById(id -1) instanceof EditText ? (EditText)findViewById(id -1) : null;
+        letter.setKeyListener(new BackspaceListener(previous));
         return letter;
     }
 }
